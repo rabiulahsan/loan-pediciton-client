@@ -81,6 +81,16 @@ const Banner = () => {
         This project demonstrates practical ML applications in the financial
         domain, covering data preprocessing, model evaluation, and deployment.
       </p>
+      <div className=" flex items-center justify-center">
+        <button className="px-5 py-3 mt-5 font-semibold bg-orange-500 text-white rounded-sm hover:bg-orange-600">
+          <a
+            href="https://github.com/rabiulahsan/loan-prediction"
+            target="blank"
+          >
+            Model Repository
+          </a>
+        </button>
+      </div>
     </div>
   );
 };
