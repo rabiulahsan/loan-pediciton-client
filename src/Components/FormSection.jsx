@@ -33,8 +33,7 @@ const FormSection = () => {
     const body = {
       age: 65, // Static value for example; adjust as needed
       income_stability: formData.income >= 2000 ? "High" : "Low",
-      //   income_stability: "High",
-      co_applicant: formData.co_applicant ? 1 : 0,
+      co_applicant: parseInt(formData.co_applicant, 10), // Convert "1" or "0" to a number
       income: parseFloat(formData.income),
       current_loan: parseInt(formData.current_loan, 10),
       credit_score: parseInt(formData.credit_score, 10),
@@ -50,7 +49,7 @@ const FormSection = () => {
           body: JSON.stringify(body),
         });
         const result = await response.json();
-        // setAmountName(result.loan_amount); // Update state with the loan amount
+        setAmountName(result.loan_amount); // Update state with the loan amount
         console.log(result);
         alert("Loan amount predicted successfully!");
       } catch (error) {
@@ -103,17 +102,39 @@ const FormSection = () => {
             </select>
           </div>
           {/* Co-Applicant */}
-          <div className="flex items-center space-x-2 ">
-            <input
-              type="checkbox"
-              name="co_applicant"
-              checked={formData.co_applicant}
-              onChange={handleChange}
-              required
-              className="h-5 w-5 text-orange-500 focus:ring-orange-500"
-            />
-            <label className="text-slate-600 font-semibold">Co-Applicant</label>
+          <div className="flex items-center gap-x-6">
+            <label className="block text-slate-600 ">Co-Applicant</label>
+            <div className="flex items-center space-x-4">
+              {/* Option Yes */}
+              <div className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  name="co_applicant"
+                  value="1"
+                  checked={formData.co_applicant === "1"}
+                  onChange={handleChange}
+                  required
+                  className="h-5 w-5 text-orange-500 focus:ring-orange-500"
+                />
+                <label className="text-slate-600 font-semibold">Yes</label>
+              </div>
+
+              {/* Option No */}
+              <div className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  name="co_applicant"
+                  value="0"
+                  checked={formData.co_applicant === "0"}
+                  onChange={handleChange}
+                  required
+                  className="h-5 w-5 text-orange-500 focus:ring-orange-500"
+                />
+                <label className="text-slate-600 font-semibold">No</label>
+              </div>
+            </div>
           </div>
+
           {/* Income */}
           <div className="mb-5">
             <label className="block text-slate-500">Income (usd)/month</label>
@@ -122,6 +143,7 @@ const FormSection = () => {
               name="income"
               value={formData.income}
               onChange={handleChange}
+              min={100}
               //   placeholder="Enter your monthly income"
               required
               className="input-style"
@@ -137,6 +159,7 @@ const FormSection = () => {
               name="current_loan"
               value={formData.current_loan}
               onChange={handleChange}
+              min={0}
               //   placeholder="Enter your current loan amount"
               required
               className="input-style"
@@ -152,6 +175,8 @@ const FormSection = () => {
               name="credit_score"
               value={formData.credit_score}
               onChange={handleChange}
+              min={400}
+              max={900}
               //   placeholder="Enter your credit score..."
               required
               className="input-style"
@@ -167,6 +192,8 @@ const FormSection = () => {
               name="loan_amount_request"
               value={formData.loan_amount_request}
               onChange={handleChange}
+              min={100}
+              max={1000000}
               //   placeholder="Enter your loan request amount..."
               required
               className="input-style"
@@ -180,6 +207,7 @@ const FormSection = () => {
               name="property_price"
               value={formData.property_price}
               onChange={handleChange}
+              min={0}
               //   placeholder="Enter your property price..."
               required
               className="input-style"
@@ -198,8 +226,18 @@ const FormSection = () => {
 
         {/* Result */}
         {amountName !== null && (
-          <div className="mt-6 text-center text-orange-500 font-bold text-lg">
-            Predicted Loan Amount: {amountName}
+          <div className="mt-6 text-center text-slate-500 font-semibold text-lg">
+            {amountName === 0 ? (
+              "You are not eligible for the loan"
+            ) : (
+              <>
+                You are eligible for{" "}
+                <span className="text-lg font-bold text-orange-500">
+                  {amountName}
+                </span>{" "}
+                usd
+              </>
+            )}
           </div>
         )}
       </div>
