@@ -1,7 +1,9 @@
+import Navbar from "./Components/Navbar";
+
 const Home = () => {
   return (
     <div>
-      <p className="font-bold text-sky-400 text-2xl">This is home page</p>
+      <Navbar></Navbar>
     </div>
   );
 };
