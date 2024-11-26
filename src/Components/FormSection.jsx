@@ -32,7 +32,8 @@ const FormSection = () => {
 
     const body = {
       age: 65, // Static value for example; adjust as needed
-      income_stability: formData.income >= 5000 ? "High" : "Low",
+      income_stability: formData.income >= 2000 ? "High" : "Low",
+      //   income_stability: "High",
       co_applicant: formData.co_applicant ? 1 : 0,
       income: parseFloat(formData.income),
       current_loan: parseInt(formData.current_loan, 10),
@@ -49,7 +50,8 @@ const FormSection = () => {
           body: JSON.stringify(body),
         });
         const result = await response.json();
-        setAmountName(result.loan_amount); // Update state with the loan amount
+        // setAmountName(result.loan_amount); // Update state with the loan amount
+        console.log(result);
         alert("Loan amount predicted successfully!");
       } catch (error) {
         console.error("Error submitting data:", error);
@@ -63,37 +65,34 @@ const FormSection = () => {
   }, [shouldFetch, formData]);
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-      <div className="bg-white shadow-2xl rounded-lg p-8 max-w-lg w-full">
-        <h1 className="text-2xl font-bold text-orange-600 mb-6 text-center">
+    <div className=" bg-gray-100 flex items-center justify-center py-[5%]">
+      <div className="bg-white shadow-2xl rounded-lg p-[4%]  max-w-lg w-full">
+        <h1 className="text-2xl font-bold text-orange-500 mb-6 text-center">
           Loan Prediction Form
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name */}
-          <div>
-            <label className="block text-slate-600 font-medium mb-1">
-              Name
-            </label>
+          <div className="mb-5">
+            <label className="block text-slate-500 ">Name</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
+              //   placeholder="Enter you name..."
               required
-              className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="input-style"
             />
           </div>
           {/* Gender */}
           <div>
-            <label className="block text-slate-600 font-medium mb-1">
-              Gender
-            </label>
+            <label className="block text-slate-500 mb-1">Gender</label>
             <select
               name="gender"
               value={formData.gender}
               onChange={handleChange}
               required
-              className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="input-style bg-transparent"
             >
               <option value="" disabled>
                 Select Gender
@@ -104,98 +103,102 @@ const FormSection = () => {
             </select>
           </div>
           {/* Co-Applicant */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ">
             <input
               type="checkbox"
               name="co_applicant"
               checked={formData.co_applicant}
               onChange={handleChange}
+              required
               className="h-5 w-5 text-orange-500 focus:ring-orange-500"
             />
-            <label className="text-slate-600 font-medium">Co-Applicant</label>
+            <label className="text-slate-600 font-semibold">Co-Applicant</label>
           </div>
           {/* Income */}
-          <div>
-            <label className="block text-slate-600 font-medium mb-1">
-              Income
-            </label>
+          <div className="mb-5">
+            <label className="block text-slate-500">Income (usd)/month</label>
             <input
               type="number"
               name="income"
               value={formData.income}
               onChange={handleChange}
+              //   placeholder="Enter your monthly income"
               required
-              className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="input-style"
             />
           </div>
           {/* Current Loan */}
           <div>
-            <label className="block text-slate-600 font-medium mb-1">
-              Current Loan
+            <label className="block text-slate-500">
+              Current Loan (usd)/month
             </label>
             <input
               type="number"
               name="current_loan"
               value={formData.current_loan}
               onChange={handleChange}
+              //   placeholder="Enter your current loan amount"
               required
-              className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="input-style"
             />
           </div>
           {/* Credit Score */}
           <div>
-            <label className="block text-slate-600 font-medium mb-1">
-              Credit Score
+            <label className="block text-slate-500">
+              Credit Score (450 - 900)
             </label>
             <input
               type="number"
               name="credit_score"
               value={formData.credit_score}
               onChange={handleChange}
+              //   placeholder="Enter your credit score..."
               required
-              className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="input-style"
             />
           </div>
           {/* Loan Amount Request */}
           <div>
-            <label className="block text-slate-600 font-medium mb-1">
-              Loan Amount Request
+            <label className="block text-slate-500">
+              Loan Amount Request (usd)
             </label>
             <input
               type="number"
               name="loan_amount_request"
               value={formData.loan_amount_request}
               onChange={handleChange}
+              //   placeholder="Enter your loan request amount..."
               required
-              className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="input-style"
             />
           </div>
           {/* Property Price */}
           <div>
-            <label className="block text-slate-600 font-medium mb-1">
-              Property Price
-            </label>
+            <label className="block text-slate-500">Property Price (usd)</label>
             <input
               type="number"
               name="property_price"
               value={formData.property_price}
               onChange={handleChange}
+              //   placeholder="Enter your property price..."
               required
-              className="w-full p-2 border border-slate-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="input-style"
             />
           </div>
           {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-          >
-            Check
-          </button>
+          <div className="flex justify-center items-center ">
+            <button
+              type="submit"
+              className=" bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-5 my-5  rounded"
+            >
+              Check
+            </button>
+          </div>
         </form>
 
         {/* Result */}
         {amountName !== null && (
-          <div className="mt-6 text-center text-orange-600 font-bold text-lg">
+          <div className="mt-6 text-center text-orange-500 font-bold text-lg">
             Predicted Loan Amount: {amountName}
           </div>
         )}
