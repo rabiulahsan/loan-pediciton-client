@@ -1,6 +1,6 @@
 const Banner = () => {
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg my-[5%]">
+    <div className="max-w-5xl mx-auto px-[5%] py-[4%] bg-gray-100 rounded-lg shadow-lg my-[5%]">
       <div className="">
         <h1 className="heading-style">Loan Amount Prediction System</h1>
         <p className="text-slate-600 mb-3">
@@ -77,7 +77,7 @@ const Banner = () => {
           applications efficiently.
         </li>
       </ul>
-      <p className="text-orange-600 text-center font-semibold mt-6">
+      <p className="text-orange-600 text-center font-semibold mt-[4%]">
         This project demonstrates practical ML applications in the financial
         domain, covering data preprocessing, model evaluation, and deployment.
       </p>
