@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.heading-style {
+  @apply font-bold text-orange-500 text-xl mb-4;
+}
