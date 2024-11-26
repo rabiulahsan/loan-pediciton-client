@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+
 const FormSection = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -42,19 +44,40 @@ const FormSection = () => {
     };
 
     const fetchLoanAmount = async () => {
+      const promise = fetch("http://localhost:5000/predictdata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }).then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch loan amount");
+        }
+        return await response.json();
+      });
+
+      toast.promise(
+        promise,
+        {
+          pending: "Predicting loan amount...",
+          success: "Loan eligibility predicting successfully 🎉",
+          error: "Failed to predict loan amount. 😞",
+        },
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
+
       try {
-        const response = await fetch("http://localhost:5000/predictdata", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
-        const result = await response.json();
+        const result = await promise;
         setAmountName(result.loan_amount); // Update state with the loan amount
         console.log(result);
-        alert("Loan amount predicted successfully!");
       } catch (error) {
         console.error("Error submitting data:", error);
-        alert("Failed to submit data.");
       } finally {
         setShouldFetch(false); // Reset trigger
       }
@@ -65,7 +88,7 @@ const FormSection = () => {
 
   return (
     <div className=" bg-gray-100 flex items-center justify-center py-[5%]">
-      <div className="bg-white shadow-2xl rounded-lg p-[4%]  max-w-lg w-full">
+      <div className="bg-white shadow-lg rounded-lg p-[4%]  max-w-lg w-full">
         <h1 className="text-2xl font-bold text-orange-500 mb-6 text-center">
           Loan Prediction Form
         </h1>
