@@ -44,11 +44,14 @@ const FormSection = () => {
     };
 
     const fetchLoanAmount = async () => {
-      const promise = fetch("http://localhost:5000/predictdata", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      }).then(async (response) => {
+      const promise = fetch(
+        "https://load-prediction-model.onrender.com/predictdata",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        }
+      ).then(async (response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch loan amount");
         }

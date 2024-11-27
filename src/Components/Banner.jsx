@@ -84,7 +84,7 @@ const Banner = () => {
       <div className=" flex items-center justify-center">
         <button className="px-5 py-3 mt-5 font-semibold bg-orange-500 text-white rounded-sm hover:bg-orange-600">
           <a
-            href="https://github.com/rabiulahsan/loan-prediction"
+            href="https://github.com/rabiulahsan/load-prediction-model"
             target="blank"
           >
             Model Repository
