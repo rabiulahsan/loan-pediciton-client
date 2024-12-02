@@ -57,6 +57,12 @@ const Banner = () => {
         <li>
           <strong>Framework:</strong> Flask
         </li>
+        <li>
+          <strong>CI/CD:</strong> GitHub Actions
+        </li>
+        <li>
+          <strong>Deployment:</strong> Render
+        </li>
       </ul>
       <h2 className="heading-style">Use Cases:</h2>
       <ul className="list-disc list-inside space-y-2 text-gray-700">

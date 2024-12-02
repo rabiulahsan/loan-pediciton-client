@@ -5,7 +5,9 @@ const FormSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
-    co_applicant: false,
+    age: "",
+    income_stability: "",
+    co_applicant: "",
     income: "",
     current_loan: "",
     credit_score: "",
@@ -18,13 +20,32 @@ const FormSection = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
+
+    // Check if the 'income' field is being updated
+    if (name === "income") {
+      const incomeValue = parseFloat(value) || 0; // Ensure it's a number
+      const income_stability = incomeValue > 2000 ? "High" : "Low"; // Categorize income
+
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value,
+        income_stability,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
+    console.log(formData);
     e.preventDefault();
     setShouldFetch(true); // Trigger the fetch on form submission
   };
@@ -32,16 +53,16 @@ const FormSection = () => {
   useEffect(() => {
     if (!shouldFetch) return;
 
-    const body = {
-      age: 65, // Static value for example; adjust as needed
-      income_stability: formData.income >= 2000 ? "High" : "Low",
-      co_applicant: parseInt(formData.co_applicant, 10), // Convert "1" or "0" to a number
-      income: parseFloat(formData.income),
-      current_loan: parseInt(formData.current_loan, 10),
-      credit_score: parseInt(formData.credit_score, 10),
-      loan_amount_request: parseInt(formData.loan_amount_request, 10),
-      property_price: parseInt(formData.property_price, 10),
-    };
+    // const body = {
+    //   age: 65, // Static value for example; adjust as needed
+    //   income_stability: formData.income >= 2000 ? "High" : "Low",
+    //   co_applicant: parseInt(formData.co_applicant, 10), // Convert "1" or "0" to a number
+    //   income: parseFloat(formData.income),
+    //   current_loan: parseInt(formData.current_loan, 10),
+    //   credit_score: parseInt(formData.credit_score, 10),
+    //   loan_amount_request: parseInt(formData.loan_amount_request, 10),
+    //   property_price: parseInt(formData.property_price, 10),
+    // };
 
     const fetchLoanAmount = async () => {
       const promise = fetch(
@@ -49,7 +70,7 @@ const FormSection = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+          body: JSON.stringify(formData),
         }
       ).then(async (response) => {
         if (!response.ok) {
@@ -127,6 +148,20 @@ const FormSection = () => {
               <option value="Other">Other</option>
             </select>
           </div>
+
+          {/* Age */}
+          <div className="mb-5">
+            <label className="block text-slate-500">Age</label>
+            <input
+              type="number"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+              required
+              className="input-style"
+            />
+          </div>
+
           {/* Co-Applicant */}
           <div className="flex items-center gap-x-6">
             <label className="block text-slate-600 ">Co-Applicant</label>
